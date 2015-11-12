@@ -27,14 +27,13 @@ Let's create a beer "class". Create a `model/beers-memory.js` file with somethin
             return this.beerList;
         };
     }
-    
+    this.init();
     exports = module.exports = BeersList;
     
 and modify `api.js`
 
     var BeersList = require('../model/beers-memory');
     var beerlist = new BeersList();
-    beerlist.init();
     
     [...]
     
