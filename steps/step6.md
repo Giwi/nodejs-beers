@@ -21,7 +21,6 @@ In `beers-memory.js` :
     }.bind(this));
     console.log(this.beerList) // it's empty, why????
     
-    
 Lets look at the console output
 
     $ nodemon app.js 
@@ -36,3 +35,4 @@ Go to [http://localhost:3000/api/beer/](http://localhost:3000/api/beer/), you ha
 
 Think about, why? 
 
+That's all folks !

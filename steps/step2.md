@@ -35,86 +35,128 @@ now, you can just type
     
     $ npm run app
 
-## Basic Routing
+## Templating
 
-Now do a CTRL+C to stop node
+### The basics 
 
-Create `routes/api.js` with : 
+There's many tamplate engines for Express (like [Jade](http://jade-lang.com/)), but we'll use EJS.
 
-    'user strict';
-    var express = require('express');
-    var router = express.Router();
-    router.get('/*', function (req, res, next) {
-        res.setHeader('Content-Type', 'application/json');
-        next();
+    $ npm install ejs --save
+
+Create files and folders :
+
+    - views
+    ----- partials
+    ---------- footer.ejs
+    ---------- head.ejs
+    ---------- header.ejs
+    ----- pages
+    ---------- index.ejs
+    ---------- about.ejs
+    
+Add in your `app.js` 
+
+    app.set('view engine', 'ejs');
+    [...]
+    app.get('/', function(req, res) {
+        res.render('pages/index');
     });
     
-    router.get('/beer', function (req, res, next) {
-        var beers = [{
-            "alcohol": 6.8,
-            "description": "Affligem Blonde, the classic clear blonde abbey ale, with a gentle roundness and 6.8% alcohol. Low on bitterness, it is eminently drinkable."
-            ,
-            "id": "AffligemBlond",
-            "img": "img/AffligemBlond.jpg",
-            "name": "Affligem Blond"
-        }];
-    
-        res.send(beers);
-    });
-    
-    module.exports = router;
-    
-and modify app.js : 
+Now the `/` path will be mapped to our index page. Do the same for the about page on another path (like `/about`)
 
-    var express = require('express');
-    var api = require('./routes/api');
-    var app = express();
-    
-    app.use('/api', api);
-    
-    app.get('/', function (req, res) {
-        res.send('Hello World!');
-    });
-    
-    var server = app.listen(3000, function () {
-        console.log('Example app listening at http://localhost:3000');
-    });
-    
-run 
+Notice how we send a view to the user by using `res.render()`. It is important to note that `res.render()` will look in 
+a `views` folder for the view. So we only have to define `pages/index` since the full path is `views/pages/index`.
 
-    $ node app.js
-    
-Go to [http://localhost:3000/api/beer/](http://localhost:3000/api/beer/)
+As a CSS framework, we'll use [Bootstrap](http://getbootstrap.com/).
 
-## Lets read a file
+Edit `head.ejs` :
 
-Now do a CTRL+C to stop node
+    <!-- views/partials/head.ejs -->    
+    <meta charset="UTF-8">
+    <title>Super Awesome</title>    
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-Download `assets/beers.json` and place it in your project's folder : `assets/beers.json` 
+Edit `header.ejs` :
 
-add in `api.js` : `var fs = require('fs');`
-and modify the "beerlist" router :
- 
-    fs.readFile('assets/beers.json', 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        res.send(data);
-    });
-    
-run 
+    <!-- views/partials/header.ejs -->    
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">    
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+                    EJS Is Fun
+                </a>
+            </div>    
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>          
+        </div>
+    </nav>
 
-    $ node app.js
-    
-Go to [http://localhost:3000/api/beer/](http://localhost:3000/api/beer/)
+Edit `footer.ejs` :
 
-## Now do a CTRL+C to stop node
+    <!-- views/partials/footer.ejs -->    
+    <p class="text-center text-muted">© Copyright 2015, geeks rulez the world</p>
 
-Ok, it is'nt fun to stop node between each coding session : 
+It's just plain HTML. okay, let's implements the main page using the EJS template Engine
 
-    $ npm install nodemon --save-dev
-    $ nodemon app.js
-    
-Modify your code, save and the node serve reloads automatically.
- 
- 
+Edit `index.ejs` :
+
+    <!-- views/pages/index.ejs -->    
+    <!DOCTYPE html>
+    <head>
+        <% include ../partials/head %>
+    </head>
+    <body class="container">    
+        <header>
+            <% include ../partials/header %>
+        </header>    
+        <main>
+            <div class="jumbotron">
+                <h1>This is great</h1>
+                <p>Welcome to templating using EJS</p>
+            </div>
+        </main>    
+        <footer>
+            <% include ../partials/footer %>
+        </footer>        
+    </body>
+    </html>
+
+Edit `about.ejs` : 
+
+    <!-- views/pages/about.ejs -->    
+    <!DOCTYPE html>
+    <head>
+        <% include ../partials/head %>
+    </head>
+    <body class="container">    
+        <header>
+            <% include ../partials/header %>
+        </header>    
+        <main>
+            <div class="row">
+                <div class="col-sm-8">                
+                   <h1>About</h1>                    
+                </div>
+                <div class="col-sm-4">                    
+                    <div class="well">
+                        <h3>Look I'm A Sidebar!</h3>
+                    </div>    
+                </div>
+            </div>
+        </main>    
+        <footer>
+            <% include ../partials/footer %>
+        </footer>        
+    </body>
+    </html>
+
+
+Hey we've included our fragments with `<% include path/to/my/fragment %>` (witout the ejs file's extension)
+
+Go to [http://localhost:3000/](http://localhost:3000/) 
+
+If all is ok, proceed to [step 3](step3.md)

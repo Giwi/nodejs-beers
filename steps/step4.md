@@ -1,13 +1,45 @@
-# Static content
+# APIs
 
-Hey take a look at  [http://expressjs.com/starter/static-files.html](http://expressjs.com/starter/static-files.html) 
-and try to serve static content from the static folder. Try to have another thing than a 404 error :  
-[http://localhost:3000/beers/img/StBernardusTripel.jpg](http://localhost:3000/beers/img/StBernardusTripel.jpg)
+## Basic Routing
 
-Good luck !
+Create `routes/api.js` with : 
 
-Now you can put your Polymer project in the "static" folder ;)
- 
+    'user strict';
+    var express = require('express');
+    var router = express.Router();
+    router.get('/*', function (req, res, next) {
+        res.setHeader('Content-Type', 'application/json');
+        next();
+    });
+    
+    router.get('/beer', function (req, res, next) {
+        var beers = [{
+            "alcohol": 6.8,
+            "description": "Affligem Blonde, the classic clear blonde abbey ale, with a gentle roundness and 6.8% alcohol. Low on bitterness, it is eminently drinkable."
+            ,
+            "id": "AffligemBlond",
+            "img": "img/AffligemBlond.jpg",
+            "name": "Affligem Blond"
+        }];
+    
+        res.send(beers);
+    });
+    
+    module.exports = router;
+    
+and modify `app.js` : 
+
+    var api = require('./routes/api');
+    [...]
+    app.use('/api', api);
+    [...]
+    
+Go to [http://localhost:3000/api/beer/](http://localhost:3000/api/beer/)
+
+## Lets read a file
+
+Modify `router.get('/beer'` to read `assets/beers.json`
+
 ## CORS
 
 Oh wait, lets deal with CORS : 
@@ -41,3 +73,4 @@ Oh wait, lets deal with CORS :
         extended: false
      }));
 
+If all is ok, proceed to [step 5](step5.md)
