@@ -1,38 +1,74 @@
-# Promises
+# In memory CRUD
 
-Let's use Q :[https://www.npmjs.com/package/q](https://www.npmjs.com/package/q) for reading this json file.
+## getList
 
-    $ npm install q --save
+Let's create a beer "class". Create a `model/beers-memory.js` file with something like : 
 
-In `beers-memory.js` : 
+    'use strict';
+    var fs = require('fs');
+    
+    function BeersList() {
+        this.path = 'assets/beers.json'
+        this.beerList = [];
+        this.init = function() {
+            var beerList = [];
+            fs.readFile(this.path, 'utf8', function (err, data) {
+                if (err) {
+                    return console.log(err);
+                }
+                JSON.parse(data).forEach(function(b) {
+                    this.push(b);
+                }, beerList);
+            });
+            this.beerList = beerList;
+        };
+        
+        this.getList = function() {
+            return this.beerList;
+        };
+    }
+    this.init();
+    exports = module.exports = BeersList;
+    
+and modify `api.js`
 
-    var Q = require('q');
+    var BeersList = require('../model/beers-memory');
+    var beerlist = new BeersList();
+    
     [...]
-    this.readFileAsync = function (path, action) {
-        Q.nfcall(fs.readFile, path).then(function (content) {
-            [...]
+    
+    router.get('/beer', function (req, res, next) {
+            res.send(beerlist.getList());
+    });
+    
+Go to [http://localhost:3000/api/beer/](http://localhost:3000/api/beer/) everything must be fine ^^
+
+## The CRUD
+
+Ok, now you have implemented the **get** method to retrieve the beers, now you can implement : 
+
+- GET /beer (Retrieves a list of beers)
+- GET /beer/12 (Retrieves a specific beer)
+- POST /beer (Creates a new beer)
+- PUT /beer/12 (Updates beer #12)
+- DELETE /beer/12 (Deletes beer #12)
+   
+Well, the first item is done, but here's a hint for the second : 
+
+    router.get('/beer/:id', function (req, res) {
+        res.json(beerlist.get(req.params.id));
+    });
+        
+and
+
+    this.get = function(id) {
+        var beer = {}
+        this.beerList.forEach(function(b) {
+            if(b.id === id) {
+                beer = b;
+            }
         });
+        return beer;
     };
     
-    [...]
-    
-    this.readFileAsync(this.path, function(data) {
-        this.beerList = data;
-    }.bind(this));
-    console.log(this.beerList) // it's empty, why????
-    
-    
-Lets look at the console output
-
-    $ nodemon app.js 
-         - [nodemon] v1.3.7
-         - [nodemon] to restart at any time, enter `rs`
-         - [nodemon] watching: *.*
-         - [nodemon] starting `node app.js`
-    [] // it's empty, why????
-    Example app listening at http://localhost:3000
-
-Go to [http://localhost:3000/api/beer/](http://localhost:3000/api/beer/), you have your beers
-
-Think about, why? 
-
+It's up to you, and remember Google is your friend and beware of stackOverflow ;)

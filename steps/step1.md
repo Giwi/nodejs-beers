@@ -12,15 +12,30 @@ For Ubuntu :
     $ sudo apt-get install -y nodejs  
     $ sudo apt-get install -y build-essential
 
-### On your school computer
+### On your computer 
 
-    $ echo "alias node=/usr/local/CAI/WEB/devtools/nodexxx/bin/node" >> .bashrc
-    $ echo "alias npm=/usr/local/CAI/WEB/devtools/nodexxx/bin/npm" >> .bashrc
+    $ cd
+
+create a `.wgetrc` file in your home : 
+
+    http_proxy = http://votre_proxy:port_proxy/
+    proxy_user = votre_user_proxy
+    proxy_password = votre_mot_de_passe
+    use_proxy = on
+    wait = 15
+
+then
+    
+    $ wget -X https://nodejs.org/dist/v4.2.2/node-v4.2.2-linux-x64.tar.gz
+    $ tar -xvf node-v4.2.2-linux-x64.tar.gz
+
+    $ echo "alias node=~/node-v4.2.2-linux-x64/bin/node" >> .bashrc
+    $ echo "alias npm=~/node-v4.2.2-linux-x64/bin/npm" >> .bashrc
     $ source .bashrc
 
 ## Configuration
 
-Test with : (whatever is the returned version number)
+Test with : 
 
     $ node -v
       v4.2.2
@@ -39,6 +54,6 @@ This will ask you some questions :
 
     $ npm init
     
-And finaly it produces `package.json` (loot at it to understand what it is)
+And finaly it produces `package.json` (look at it to understand what it is)
  
 If all is ok, proceed to [step 2](step2.md)

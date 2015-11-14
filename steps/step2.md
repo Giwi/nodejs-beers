@@ -27,6 +27,14 @@ Go to [http://localhost:3000/](http://localhost:3000/)
 
 That's it ;)
 
+Well, you can be more hipster by modifying the `package.json` file, especially th "scripts" section by adding : 
+    
+    "app": "node app.js"
+    
+now, you can just type 
+    
+    $ npm run app
+
 ## Basic Routing
 
 Now do a CTRL+C to stop node
