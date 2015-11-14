@@ -11,3 +11,4 @@ The aim of this tutorial is to learn the basis of NodeJS
 + [step 4](steps/step4.md) : APIs
 + [step 5](steps/step5.md) : In memory CRUD
 + [step 6](steps/step6.md) : Promises
++ [step 7](steps/step7.md) : Yeoman and the Mean stack

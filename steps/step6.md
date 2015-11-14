@@ -36,3 +36,5 @@ Go to [http://localhost:3000/api/beer/](http://localhost:3000/api/beer/), you ha
 Think about, why? 
 
 That's all folks !
+
+If all is ok, proceed to [step 7](step7.md)
