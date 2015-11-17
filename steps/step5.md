@@ -26,8 +26,9 @@ Let's create a beer "class". Create a `model/beers-memory.js` file with somethin
         this.getList = function() {
             return this.beerList;
         };
+        this.init();
     }
-    this.init();
+    
     exports = module.exports = BeersList;
     
 and modify `api.js`
