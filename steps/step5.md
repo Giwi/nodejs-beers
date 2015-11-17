@@ -73,4 +73,6 @@ and
     
 It's up to you, and remember Google is your friend and beware of stackOverflow ;)
 
+You can now implement the others express view and navigation for the master/detail/edit/delete beers app.
+
 If all is ok, proceed to [step 6](step6.md)
