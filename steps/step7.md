@@ -2,9 +2,16 @@
 
 Let's discover [Yoeman](http://yeoman.io/) with [generator-angular-fullstack](https://github.com/DaftMonk/generator-angular-fullstack)
 
-Don't forget to create a `.bowerrc` and a `.npmrc` with proxy settings in your project folder.
+Don't forget to create a `.bowerrc` and a `.npmrc` with proxy settings in your project or home folder.
 
-Don't choose saas, but plain CSS
+`.bowerrc`
+
+    {
+        "proxy":"http://<login>:<passwd>@<host>:<port>",
+        "https-proxy":"http://<login>:<passwd>@<host>:<port>"
+    }
+
+Don't choose saas, but plain CSS.
 
 If you've a packaged installation (like on your own computer) : 
 
